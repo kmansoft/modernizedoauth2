@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">ModernizedOauth2</string>
+	<string name="label_use_sign_out">Use SignOutOptions</string>
+	<string name="label_auth_new">Auth (new)</string>
+	<string name="label_email">Email (for repeat auth)</string>
+	<string name="label_auth_with_email">Auth (with existing email)</string>
+
+	<string name="auth_result">Auth result: %s</string>
+</resources>
