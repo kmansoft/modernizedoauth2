@@ -2,10 +2,12 @@ package org.kman.test.modernizedoauth2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,17 +20,22 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	private static final String PREF_KEY_EMAIL = "email";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
 
+		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 		mCheckUseSignOut = (CheckBox) findViewById(R.id.oauth_use_sign_out);
 		mButtonAuthNew = (Button) findViewById(R.id.oauth_auth_new);
 		mEditEmail = (EditText) findViewById(R.id.oauth_email_address);
 		mButtonAuthWithEmail = (Button) findViewById(R.id.oauth_auth_with_email);
 
+		mEditEmail.setText(mSharedPrefs.getString(PREF_KEY_EMAIL, null));
 		mEditEmail.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,14 +68,22 @@ public class MainActivity extends Activity {
 		});
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		final String email = getEditTextTrimmedOrNull(mEditEmail);
+		mSharedPrefs.edit().putString(PREF_KEY_EMAIL, email).apply();
+	}
+
 	private void onEditEmailChanged(Editable s) {
-		mButtonAuthWithEmail.setEnabled(s.length() != 0 && s.toString().trim().length() != 0);
+		mButtonAuthWithEmail.setEnabled(getEditTextTrimmedOrNull(s) != null);
 	}
 
 	private void onStartAuth(boolean withEmail) {
 		final String email;
 		if (withEmail) {
-			email = mEditEmail.getText().toString().trim();
+			email = getEditTextTrimmedOrNull(mEditEmail);
 		} else {
 			email = null;
 		}
@@ -101,6 +116,21 @@ public class MainActivity extends Activity {
 		} catch (Exception x) {
 			showToast(x);
 		}
+	}
+
+	private String getEditTextTrimmedOrNull(EditText edit) {
+		final Editable editable = edit.getText();
+		return getEditTextTrimmedOrNull(editable);
+	}
+
+	private String getEditTextTrimmedOrNull(Editable editable) {
+		if (editable != null && editable.length() != 0) {
+			final String s = editable.toString().trim();
+			if (s.length() != 0) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 	private void showToast(String s) {
@@ -157,6 +187,7 @@ public class MainActivity extends Activity {
 		return builder.build();
 	}
 
+	private SharedPreferences mSharedPrefs;
 	private CheckBox mCheckUseSignOut;
 	private Button mButtonAuthNew;
 	private EditText mEditEmail;
