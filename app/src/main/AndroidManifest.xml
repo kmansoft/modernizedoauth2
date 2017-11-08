@@ -27,7 +27,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				<category android:name="android.intent.category.BROWSABLE"/>
 
-				<data android:scheme="org.kman.test.modernizedoauth2.callback"/>
+				<data android:scheme="com.googleusercontent.apps.781777166716-3m1p2b1pdgjput6lf7l5rugr543bogs7"/>
 			</intent-filter>
 		</activity>
 	</application>
