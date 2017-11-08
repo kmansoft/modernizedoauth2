@@ -162,7 +162,10 @@ public class MainActivity extends Activity {
 
 	private static final String CLIENT_ID = "781777166716-fl7jroljr6u38qbq0tt4kpsaclsf4kre.apps.googleusercontent.com";
 
+//	private static final String CLIENT_ID = "781777166716-3m1p2b1pdgjput6lf7l5rugr543bogs7.apps.googleusercontent.com";
+
 	private static final String INTERNAL_URI = "org.kman.test.modernizedoauth2.callback:/";
+//	private static final String INTERNAL_URI = "com.googleusercontent.apps.781777166716-fl7jroljr6u38qbq0tt4kpsaclsf4kre:/";
 
 	private static final String GOOGLE_SIGN_OUT_URI = "https://accounts.google.com/SignOutOptions";
 	private static final String GOOGLE_SIGN_OUT_CONTINUE = "continue";
